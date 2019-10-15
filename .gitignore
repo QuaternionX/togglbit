@@ -1,0 +1,4 @@
+node_modules
+companion/config.js
+package-lock.js
+build

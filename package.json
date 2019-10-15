@@ -1,0 +1,32 @@
+{
+  "fitbit": {
+    "appUUID": "70dfd461-bbb7-42a6-968f-1a5a72076eb8",
+    "appType": "app",
+    "appDisplayName": "TogglBit",
+    "iconFile": "resources/icon.png",
+    "wipeColor": "#03a9f4",
+    "requestedPermissions": [
+      "access_internet"
+    ],
+    "buildTargets": [
+      "higgs",
+      "meson",
+      "gemini"
+    ],
+    "i18n": {
+      "en": {
+        "name": "TogglBit"
+      }
+    },
+    "defaultLanguage": "en-US"
+  },
+  "devDependencies": {
+    "@fitbit/sdk": "^3.1.3"
+  },
+  "dependencies": {
+    "@fitbit/sdk-cli": "^1.7.0"
+  },
+  "scripts": {
+    "build": "fitbit-build"
+  }
+}
