@@ -7,7 +7,7 @@ export function API(apiKey) {
 let ApiUrl = "https://toggl.com/api/v8";
 let ApiUrlV9 = "https://toggl.com/api/v9";
 let UserData;
-let CreatedWith = "TogglBit 1.0";
+let CreatedWith = "TogglBit-1.0";
 let config = new Config();
 
 console.log("Credentials: " + config.credentials);
@@ -30,7 +30,7 @@ API.prototype.fetchUser = function() {
     .then(response => response.json())
     .then(data => {
       UserData = data.data;
-      console.log("Got JSON response from server:" + JSON.stringify(data));
+      //console.log("Got JSON response from server:" + JSON.stringify(data));
       console.log(".............................");
       //console.log("22Got JSON response from server:" + JSON.parse(JSON.stringify(data)).data.time_entries[0].id);
       resolve(JSON.stringify(data));
@@ -39,34 +39,35 @@ API.prototype.fetchUser = function() {
     });
   });
 }
-/*
+
 API.prototype.stopEntry = function(timeEntry) {
   let self = this;
   console.log("API - Stop Entry");
   return new Promise(function(resolve, reject) {
-    let url = ApiUrlV9 + "/time_entries/" + entry.id;
-
+    let url = ApiUrlV9 + "/time_entries/" + timeEntry.id;
     const stopTime = new Date();
-    const startTime = new Date(-TogglButton.$curEntry.duration * 1000);
+    const startTime = new Date(-timeEntry.duration * 1000);
     const entry = {
       stop: stopTime.toISOString(),
       duration: Math.floor((stopTime - startTime) / 1000)
     };
-
+    
     var obj = {  
-      method: 'GET',
+      method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': 'Basic ' + btoa(config.credentials)
       },
-      body: entry
-    };
-    
+      body: JSON.stringify(entry)
+    }
+    console.log(JSON.stringify(obj));
+
+    console.log("StopENTRY - 7");
     fetch(url, obj)
     .then(response => response.json())
     .then(data => {
-      console.log("Got JSON response from server:" + JSON.stringify(data));
+      console.log("STOPP Got JSON response from server:" + JSON.stringify(data));
       console.log(".............................");
       //console.log("22Got JSON response from server:" + JSON.parse(JSON.stringify(data)).data.time_entries[0].id);
       resolve(JSON.stringify(data));
@@ -81,21 +82,27 @@ API.prototype.startEntry = function() {
   let self = this;
   console.log("API - Start Entry");
   return new Promise(function(resolve, reject) {
-    let url = ApiUrlV9 + "/time_entries/" + entry.id;
-
+    let url = ApiUrlV9 + "/time_entries";
+    console.log("START ENTRY - 1");
+    console.log(JSON.stringify(UserData));
+console.log("START ENTRY - 2");
     const start = new Date();
+    console.log("START ENTRY - 3");
+    console.log("START ENTRY - " + UserData.default_wid);
     const entry = {
-      stop: start.toISOString(),
+      start: start.toISOString(),
       stop: null,
       duration: -parseInt(start.getTime() / 1000, 10),
       description: '',
       pid: null,
       tid: null,
-      wid: UserData.user.default_wid,
+      wid: UserData.default_wid,
       tags: null,
       billable: false,
       created_with: CreatedWith
     };
+
+    console.log("START ENTRY - 4");
 
     var obj = {  
       method: 'POST',
@@ -104,8 +111,10 @@ API.prototype.startEntry = function() {
         'Content-Type': 'application/json',
         'Authorization': 'Basic ' + btoa(config.credentials)
       },
-      body: entry
+      body: JSON.stringify(entry)
     };
+    console.log("START ENTRY - 5");
+    console.log(JSON.stringify(obj));
     
     fetch(url, obj)
     .then(response => response.json())
@@ -115,8 +124,8 @@ API.prototype.startEntry = function() {
       //console.log("22Got JSON response from server:" + JSON.parse(JSON.stringify(data)).data.time_entries[0].id);
       resolve(JSON.stringify(data));
     }).catch(function (error) {
+      console.log(JSON.stringify(error))
       reject(error);
     });
   });
 }
-*/

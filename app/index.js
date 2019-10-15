@@ -8,7 +8,6 @@ import { UI } from "./ui.js";
 
 console.log("App code started");
 
-let startButton = document.getElementById("play");
 /*
 startButton.onclick = function(e) {
   console.log("click");
@@ -19,8 +18,13 @@ startButton.onclick = function(e) {
 */
 let ui = new UI();
 
-//console.log("3");
-//ui.updateUI("disconnected");
+ui.status.onclick = function(e) {
+  console.log("click UI STATUS");
+  console.log(JSON.stringify(ui.entry))
+  if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
+    messaging.peerSocket.send(ui.entry);
+  }
+}
 
 // Listen for the onopen event
 messaging.peerSocket.onopen = function() {
@@ -34,6 +38,7 @@ messaging.peerSocket.onmessage = function(evt) {
   console.log("UI onmessage");
   ui.updateUI(JSON.parse(evt.data));
   console.log(evt.data);
+  if (!!JSON.parse(evt.data).data)
     console.log(JSON.parse(evt.data).data.description);
 }
 

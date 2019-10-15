@@ -2,9 +2,9 @@
 <svg class="screen">
   <text id="entry"></text>
   <circle cx="50%" cy="50%" r="80" fill="black"/>
-  <circle cx="50%" cy="50%" r="79" fill="green"/>
-  <svg class="container" id="container" pointer-events="visible">
-    <text id="status"></text>
-    <text id="duration">11:00</text>
+  <circle cx="50%" cy="50%" r="79" id="circle"/>
+  <svg class="container" id="container">
+    <text id="status" pointer-events="visible"></text>
+    <text id="duration"></text>
   </svg>
 </svg>

@@ -5,31 +5,44 @@ clock.granularity = "seconds";
 
 var runningEntry = null
 var durationLabel = null;
-export function UI() {
-  this.container = document.getElementById("container");
-  this.status = document.getElementById("status");
-  this.entry = document.getElementById("entry");
-  durationLabel = document.getElementById("duration");
-  this.runningEntry = null;
-  this.timer = null;
 
-  this.container.onclick = function(e) {
-    console.log("click");
-    var a = this.status.text;
-    this.status.text = a + ".";
-  }
+export function UI() {
+  this.status = document.getElementById("status");
+  this.circle = document.getElementById("circle");
+  this.entryLabel = document.getElementById("entry");
+  durationLabel = document.getElementById("duration");
+  this.timer = null;
+  this.entry = null;
 }
 
 UI.prototype.updateUI = function(data) {
   console.log("updateUI");
-  console.log(typeof data);
   if (data.type === "current-entry") {
     this.updateTimer(data.data);
+  } else if (data.type === "entry-stop") {
+    this.updateTimer(null);
+  }
+}
+
+UI.prototype.updateTimer = function(data) {
+  console.log("Update timer");
+
+  runningEntry = data;
+  this.entry = data;
+  this.status.text = (!!data) ? "Stop": "Start";
+  if (!!data) {
+    console.log("Description - " + data.description);
+    this.entryLabel.text = data.description;
+    this.circle.style.fill = "red";
+  } else {
+    durationLabel.text = "";
+    this.entryLabel.text = "";
+    this.circle.style.fill = "#228B22";
   }
 }
 
 var updateDuration = function() {
-  console.log("Calc duration");
+  //console.log("Calc duration");
   let duration = new Date() - new Date(runningEntry.start);
   let seconds = parseInt((duration / 1000) % 60, 10);
   let minutes = parseInt((duration / (1000 * 60)) % 60, 10);
@@ -40,18 +53,6 @@ var updateDuration = function() {
   seconds = seconds < 10 ? '0' + seconds : seconds;
 
   durationLabel.text = hours + ':' + minutes + ':' + seconds;
-}  
-
-
-UI.prototype.updateTimer = function(data) {
-  console.log("UPdate timer");
-
-  runningEntry = data;
-  this.status.text = (!!data) ? "Stop": "Start";
-  if (!!data) {
-    console.log("Description - " + data.description);
-    this.entry.text = data.description;
-  }
 }
 
 clock.ontick = e => {
