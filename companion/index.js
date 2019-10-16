@@ -77,17 +77,13 @@ function getUserData() {
   var entry = null;
   var entries;
   Api.fetchUser().then(function(data) {
-    //console.log ("data -> length: " + data.length);
-  //  console.log (JSON.parse(data).time_entries);
     entries = JSON.parse(data).data.time_entries;
     if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
 
-      console.log("Send to UI");
-//      console.log (JSON.stringify(entries));
+
       if (!!entries) {
         entry = entries.find(te => te.duration < 0) || null;
       }
-      console.log("Send to UI 2");
       var obj = {
         "type": "current-entry",
         "data": null
@@ -104,11 +100,7 @@ function getUserData() {
           }
         };
       }
-      console.log("Send to UI 3");
- //     console.log (JSON.stringify(obj));
       messaging.peerSocket.send(JSON.stringify(obj));
-      console.log("Send to UI 4");
-      //messaging.peerSocket.send("entry");
     }
   }).catch(function (e) {
     console.log("error");
