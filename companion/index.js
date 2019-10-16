@@ -1,16 +1,17 @@
 import { me } from "companion";
 import * as messaging from "messaging";
 import { API } from "./api.js"
-
+import { settingsStorage } from "settings";
 
 let Api = new API();
 
 // Listen for the onopen event
 messaging.peerSocket.onopen = function() {
   // Ready to send or receive messages
-  console.log("  sendUserData();");
-  sendUserData();
-
+  console.log("  getUserData();");
+  Api.setToken(settingsStorage.getItem("token").name);
+  restoreSettings();
+  getUserData();
 }
 
 // Listen for the onmessage event
@@ -72,7 +73,7 @@ function stopEntry(entry) {
   });
 }
 
-function sendUserData() {
+function getUserData() {
   var entry = null;
   var entries;
   Api.fetchUser().then(function(data) {
@@ -113,4 +114,26 @@ function sendUserData() {
     console.log("error");
     console.log(e)
   });
+}
+
+// A user changes Settings
+settingsStorage.onchange = evt => {
+  if (evt.key === "token") {
+    // Settings page sent us an Api token
+    let data = JSON.parse(evt.newValue);
+    Api.setToken(data.name);
+    getUserData();
+  }
+};
+
+// Restore previously saved settings and send to the device
+function restoreSettings() {
+  for (let index = 0; index < settingsStorage.length; index++) {
+    let key = settingsStorage.key(index);
+    if (key && key === "token") {
+      // We already have a token, get it
+      let data = JSON.parse(settingsStorage.getItem(key))
+      Api.setToken(data.name);
+    }
+  }
 }

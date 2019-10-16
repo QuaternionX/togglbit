@@ -1,6 +1,3 @@
-
-import { Config } from "./config.js";
-
 export function API(apiKey) {
 };
 
@@ -9,8 +6,14 @@ let ApiUrlV9 = "https://toggl.com/api/v9";
 let UserData;
 let CreatedWith = "TogglBit-1.0";
 let config = new Config();
+let credentials;
 
 console.log("Credentials: " + config.credentials);
+
+API.prototype.setToken = function(token) {
+  console.log("API: set token - " + token);
+  credentials = 'Basic ' + btoa(token + ':api_token');
+}
 
 API.prototype.fetchUser = function() {
   let self = this;
@@ -23,7 +26,7 @@ API.prototype.fetchUser = function() {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': 'Basic ' + btoa(config.credentials)
+        'Authorization': credentials
     }};
     
     fetch(url, obj)
@@ -57,7 +60,7 @@ API.prototype.stopEntry = function(timeEntry) {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': 'Basic ' + btoa(config.credentials)
+        'Authorization': credentials
       },
       body: JSON.stringify(entry)
     }
@@ -109,7 +112,7 @@ console.log("START ENTRY - 2");
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': 'Basic ' + btoa(config.credentials)
+        'Authorization': credentials
       },
       body: JSON.stringify(entry)
     };
