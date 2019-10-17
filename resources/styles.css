@@ -7,7 +7,7 @@
   width: 50%;
   height: 50%;
   x: 25%;
-  y: 25%;
+  y: 50%-5;
 }
 #circle {
   fill: green;
@@ -25,14 +25,13 @@
 #status {
   font-size: 32;
   font-family: System-Regular;
-  font-weight: regular;
+  font-weight: bold;
   viewport-fill: green;
   fill: #ffffff;
   width: 100%;
   text-length: 10;
 }
 #duration {
-  y:80%;
   text-length: 8;
   fill: #ffffff;
   font-size: 16;

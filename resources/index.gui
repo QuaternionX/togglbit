@@ -1,10 +1,29 @@
-
 <svg class="screen">
-  <text id="entry"></text>
-  <circle cx="50%" cy="50%" r="80" fill="black"/>
-  <circle cx="50%" cy="50%" r="79" id="circle"/>
-  <svg class="container" id="container">
-    <text id="status" pointer-events="visible"></text>
-    <text id="duration"></text>
-  </svg>
+	<symbol id="progress">
+	  <arc id="seconds-arc" x="50%-50" y="50%-70" width="100" height="100" fill="#CE2324"
+			arc-width="3" start-angle="0" sweep-angle="360" arc-width="2">
+		<animate id="anim" attributeName="sweep-angle" begin="enable" from="0" to="360" dur="1" final="keep" easing="ease-in-out" />
+		</arc>
+	</symbol>
+<!-- Header -->
+	<section x="0" y="0" width="100%" height="15%" id="top-section">
+
+	</section>
+
+<!-- Content -->
+	<section x="0" y="0" width="100%" height="100%" id="middle-section">
+		<arc id="arc-seconds-back" x="50%-50" y="50%-70" width="100" height="100" fill="#6d2122"
+	    arc-width="3" start-angle="0" sweep-angle="360" arc-width="2"/>
+		<use id="arc-seconds" href="#progress"/>
+		<text id="duration" x="50%" y="50%"></text>
+		<text id="entry"></text>
+	</section>
+
+<!-- Footer -->
+	<section x="0" y="70%" width="100%" height="15%" id="bottom-section">
+		<circle cx="50%" cy="100%-5" r="30" id="circle"/>
+	  <svg class="container" id="container">
+	    <text id="status" pointer-events="visible"></text>
+	  </svg>
+	</section>
 </svg>
