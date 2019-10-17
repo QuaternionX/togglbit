@@ -5,10 +5,7 @@ let ApiUrl = "https://toggl.com/api/v8";
 let ApiUrlV9 = "https://toggl.com/api/v9";
 let UserData;
 let CreatedWith = "TogglBit-1.0";
-let config = new Config();
 let credentials;
-
-console.log("Credentials: " + config.credentials);
 
 API.prototype.setToken = function(token) {
   console.log("API: set token - " + token);
