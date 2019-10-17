@@ -9,7 +9,6 @@ let Api = new API();
 messaging.peerSocket.onopen = function() {
   // Ready to send or receive messages
   console.log("  getUserData();");
-  Api.setToken(settingsStorage.getItem("token").name);
   restoreSettings();
   getUserData();
 }
