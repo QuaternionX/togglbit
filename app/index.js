@@ -7,18 +7,9 @@ import * as messaging from "messaging";
 import { UI } from "./ui.js";
 
 console.log("App code started");
-
-/*
-startButton.onclick = function(e) {
-  console.log("click");
-  if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
-    messaging.peerSocket.send(ui.runningEntry);
-  }
-}
-*/
 let ui = new UI();
 
-ui.status.onclick = function(e) {
+ui.rect.onclick = function(e) {
   console.log("click UI STATUS");
   console.log(JSON.stringify(ui.entry))
   if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {

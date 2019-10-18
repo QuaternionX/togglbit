@@ -36,6 +36,9 @@
   fill: #ffffff;
   font-size: 16;
 }
+#play-rect {
+  opacity: 0;
+}
 text {
   x: 50%;
   text-anchor: middle;

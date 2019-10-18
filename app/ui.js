@@ -12,9 +12,13 @@ const secondsContainerBack = document.getElementById("arc-seconds-back");
 const secondsAnim = secondsContainer.getElementById("anim");
 const secondsArc = secondsContainer.getElementById("arc");
 
+const playIcon = document.getElementById("play-icon");
+const stopIcon = document.getElementById("stop-icon");
+
 export function UI() {
   this.status = document.getElementById("status");
   this.circle = document.getElementById("circle");
+  this.rect = document.getElementById("play-rect");
   this.entryLabel = document.getElementById("entry");
   durationLabel = document.getElementById("duration");
   this.timer = null;
@@ -35,28 +39,31 @@ UI.prototype.updateTimer = function(data) {
 
   runningEntry = data;
   this.entry = data;
-  this.status.text = (!!data) ? "◻": ">";
   if (!!data) {
     //Running entry
     console.log("Description - " + data.description);
     this.entryLabel.text = (!!data.description)? data.description: "(no description)";
     this.circle.style.fill = "#db1e1e";
-    toggleArc(true);
+    toggleRunning(true);
   } else {
     durationLabel.text = "";
     this.entryLabel.text = "";
     this.circle.style.fill = "#228B22";
-    toggleArc(false);
+    toggleRunning(false);
   }
 }
 
-var toggleArc = function(show) {
-  if (show) {
+var toggleRunning = function(running) {
+  if (running) {
     secondsContainer.style.display = "inline";
     secondsContainerBack.style.display = "inline";
+    playIcon.style.display = "none";
+    stopIcon.style.display = "inline";
   } else {
     secondsContainer.style.display = "none";
     secondsContainerBack.style.display = "none";
+    stopIcon.style.display = "none";
+    playIcon.style.display = "inline";
   }
 }
 
