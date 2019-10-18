@@ -126,5 +126,10 @@ function restoreSettings() {
       let data = JSON.parse(settingsStorage.getItem(key))
       Api.setToken(data.name);
     }
+    if (key && key === "description") {
+      // We already have a token, get it
+      let data = JSON.parse(settingsStorage.getItem(key))
+      Api.setDescription(data.name);
+    }
   }
 }

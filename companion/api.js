@@ -6,6 +6,12 @@ let ApiUrlV9 = "https://toggl.com/api/v9";
 let UserData;
 let CreatedWith = "TogglBit-1.0";
 let credentials;
+let entryDescription = "";
+
+API.prototype.setDescription = function(description) {
+  console.log("API: set entry description - " + description);
+  entryDescription = description;
+}
 
 API.prototype.setToken = function(token) {
   console.log("API: set token - " + token);
@@ -93,7 +99,7 @@ console.log("START ENTRY - 2");
       start: start.toISOString(),
       stop: null,
       duration: -parseInt(start.getTime() / 1000, 10),
-      description: '',
+      description: entryDescription,
       pid: null,
       tid: null,
       wid: UserData.default_wid,
