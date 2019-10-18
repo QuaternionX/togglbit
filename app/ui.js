@@ -78,7 +78,13 @@ var updateDuration = function() {
   secondsAnim.to = calcArc(seconds, 60);
   secondsAnim.from = lastTo;
 
-  lastTo = secondsAnim.to;
+  if (secondsAnim.to == 0 && lastTo != 0) {
+    secondsAnim.to = 360;
+    lastTo = 0;
+  } else {
+    lastTo = secondsAnim.to;
+  }
+
   //console.log(secondsAnim.from + " -> " + secondsAnim.to + " = " + seconds);
   secondsContainer.animate("enable");
 
