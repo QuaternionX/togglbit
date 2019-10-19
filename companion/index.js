@@ -4,6 +4,7 @@ import { API } from "./api.js"
 import { settingsStorage } from "settings";
 
 let Api = new API();
+let userData;
 
 // Listen for the onopen event
 messaging.peerSocket.onopen = function() {
@@ -73,9 +74,12 @@ function stopEntry(entry) {
 }
 
 function getUserData() {
-  var entry = null;
-  var entries;
+  var entry = null,
+    entries,
+    p,
+    c;
   Api.fetchUser().then(function(data) {
+    userData = JSON.parse(data);
     entries = JSON.parse(data).data.time_entries;
     if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
 
@@ -89,15 +93,26 @@ function getUserData() {
       };
 
       if (!!entry) {
+        p = findProjectByPid(entry.pid);
+        if (!!p) {
+          c = p.hex_color;
+          p = p.name;
+        } else {
+          p = "";
+        }
         obj = {
           "type": "current-entry",
           "data": {
             "id": entry.id,
             "description": entry.description,
             "duration": entry.duration,
-            "start": entry.start
+            "start": entry.start,
+            "project": p
           }
         };
+        if (!!c) {
+          obj.data.c = c;
+        }
       }
       messaging.peerSocket.send(JSON.stringify(obj));
     }
@@ -133,3 +148,14 @@ function restoreSettings() {
     }
   }
 }
+
+function findProjectByPid(pid) {
+  let key;
+  for (key in userData.data.projects) {
+    if (userData.data.projects.hasOwnProperty(key) && userData.data.projects[key].id === pid) {
+      return userData.data.projects[key];
+    }
+  }
+
+  return undefined;
+ }

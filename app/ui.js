@@ -36,13 +36,20 @@ UI.prototype.updateUI = function(data) {
 
 UI.prototype.updateTimer = function(data) {
   console.log("Update timer");
+  console.log(JSON.stringify(data));
+  var label;
 
   runningEntry = data;
   this.entry = data;
   if (!!data) {
     //Running entry
-    console.log("Description - " + data.description);
-    this.entryLabel.text = (!!data.description)? data.description: "(no description)";
+    label = data.description;
+    if (!!data.project) {
+      label += " • " + data.project;
+      this.entryLabel.style.fill = data.c;
+    }
+    console.log("Description - " + label);
+    this.entryLabel.text = label;
     this.circle.style.fill = "#db1e1e";
     toggleRunning(true);
   } else {
