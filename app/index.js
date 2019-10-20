@@ -13,9 +13,31 @@ ui.rect.onclick = function(e) {
   console.log("click UI STATUS");
   console.log(JSON.stringify(ui.entry))
   if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
-    messaging.peerSocket.send(ui.entry);
+    var obj = {
+      "type": (!!ui.entry) ? "stop": "start",
+      "data": ui.entry
+    };
+
+    messaging.peerSocket.send(obj);
   }
 }
+
+let list = document.getElementById("entries-list");
+let items = list.getElementsByClassName("item");
+
+items.forEach((element, index) => {
+  let touch = element.getElementById("touch-me");
+  touch.onclick = (evt) => {
+    console.log(`touched: ${index}`);
+    if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
+      console.log("index: " + index);
+      console.log(JSON.stringify(ui.recentEntries));
+      console.log("--------------------------------------");
+      console.log(JSON.stringify((ui.recentEntries[index])))
+      messaging.peerSocket.send(ui.recentEntries[index]);
+    }
+  }
+});
 
 // Listen for the onopen event
 messaging.peerSocket.onopen = function() {

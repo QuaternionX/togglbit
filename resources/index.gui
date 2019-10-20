@@ -1,4 +1,5 @@
-<svg class="screen">
+<svg>
+	<!-- Define circular progress meter with animation -->
 	<symbol id="progress">
 	  <arc id="seconds-arc" x="50%-50" y="50%-70" width="100" height="100" fill="#CE2324"
 			arc-width="3" start-angle="0" sweep-angle="360" arc-width="2">
@@ -6,28 +7,103 @@
 		</arc>
 	</symbol>
 
-<!-- Header -->
-	<section x="0" y="0" width="100%" height="15%" id="top-section">
+	<!-- Define a reusable tile to display recent time entries -->
+  <symbol id="tile-entry" focusable="false" pointer-events="visible"
+  system-events="all">
+    <rect id="entry-background" height="100%" width="100%" fill="blue" />
 
-	</section>
+    <!-- line1: description -->
+    <text id="desc" font-size="24" x="15" y="10" fill="white"></text>
 
-<!-- Content -->
-	<section x="0" y="0" width="100%" height="100%" id="middle-section">
-		<arc id="arc-seconds-back" x="50%-50" y="50%-70" width="100" height="100" fill="#6d2122"
-	    arc-width="3" start-angle="0" sweep-angle="360" arc-width="2"/>
-		<use id="arc-seconds" href="#progress"/>
-		<text id="duration" x="50%" y="50%"></text>
-		<text id="entry"></text>
-	</section>
+    <!-- line 2: project name -->
+    <text id="proj" x="15" y="30" font-size="18" fill="white"></text>
 
-<!-- Footer -->
-	<section x="0" y="70%" width="100%" height="15%" id="bottom-section">
-		<circle cx="50%" cy="100%-5" r="30" id="circle"/>
-	  <svg class="container" id="container">
-	    <text id="status" pointer-events="visible"></text>
-			<rect id="stop-icon" width="20" height="20" x="50%-10" y="10" fill="white" />
-			<image id="play-icon" width="16" height="20" x="50%-7" y="50%-1" href="play_button.png" class="play" />
-	  </svg>
-	  <rect id="play-rect" width="80" height="80" x="50%-40" y="50%-20" fill="yellow" pointer-events="visible"/>
-	</section>
+    <use id="continue" href="#static-image" x="100%-50" y="0%" height="20"
+    width="16">
+      <set href="image" attributeName="href" to="play_button.png"/>
+    </use>
+
+    <rect id="touch-me" pointer-events="all" x="0" y="0" width="100%"
+            height="100%-2" opacity="0" />
+
+    <rect id="tile-divider-bottom" height="2" />
+  </symbol>
+
+
+  <use id="container" href="#panoramaview">
+
+  	<!-- Main View -->
+    <use id="item1" href="#panoramaview-item">
+      <svg class="screen">
+
+				<!-- Main View - Header -->
+				<section x="0" y="0" width="100%" height="15%" id="top-section">
+
+				</section>
+
+				<!-- Main View - Content -->
+				<section x="0" y="0" width="100%" height="100%" id="middle-section">
+					<arc id="arc-seconds-back" x="50%-50" y="50%-70" width="100" height="100" fill="#6d2122"
+				    arc-width="3" start-angle="0" sweep-angle="360" arc-width="2"/>
+					<use id="arc-seconds" href="#progress"/>
+					<text id="duration" x="50%" y="50%"></text>
+					<text id="entry"></text>
+				</section>
+
+			<!-- Main View - Footer -->
+				<section x="0" y="70%" width="100%" height="15%" id="bottom-section">
+					<circle cx="50%" cy="100%-5" r="30" id="circle"/>
+				  <svg class="container" id="container">
+				    <text id="status" pointer-events="visible"></text>
+						<rect id="stop-icon" width="20" height="20" x="50%-10" y="10" fill="white" />
+						<image id="play-icon" width="16" height="20" x="50%-7" y="50%-1" href="play_button.png" class="play" />
+				  </svg>
+				  <rect id="play-rect" width="80" height="80" x="50%-40" y="50%-20" fill="yellow" pointer-events="visible"/>
+				</section>
+			</svg>
+    </use>
+
+    <!-- Recent Entries list view -->
+    <use id="item2" href="#panoramaview-item">
+
+      <use id="entries-list" href="#tile-list" height="100%" width="100%" y="0">
+				<use href="#tile-list-header" class="item-header">
+      		<text>Recent Time Entries</text>
+    		</use>
+      	<use id="entry-0" href="#tile-list-item" class="item">
+				  <use href="#tile-entry" />
+				</use>
+				<use id="entry-1" href="#tile-list-item" class="item">
+				  <use href="#tile-entry" />
+				</use>
+				<use id="entry-2" href="#tile-list-item" class="item">
+				  <use href="#tile-entry" />
+				</use>
+				<use id="entry-3" href="#tile-list-item" class="item">
+				  <use href="#tile-entry" />
+				</use>
+				<use id="entry-4" href="#tile-list-item" class="item">
+				  <use href="#tile-entry" />
+				</use>
+    	</use>
+
+    </use>
+
+    <!-- Daily/Weekly summary view -->
+    <use id="item3" href="#panoramaview-item">
+      <rect width="100%" height="100%" fill="blue" />
+    </use>
+
+    <!-- Have enough pagination dots for your slides (extras are hidden) -->
+    <use id="pagination-dots" href="#pagination-widget" y="8">
+      <use href="#pagination-dot" />
+      <use href="#pagination-dot" />
+      <use href="#pagination-dot" />
+      <use href="#pagination-dot" />
+      <use href="#pagination-dot" />
+      <use href="#pagination-highlight-dot" />
+    </use>
+  </use>
 </svg>
+
+

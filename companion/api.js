@@ -84,29 +84,50 @@ API.prototype.stopEntry = function(timeEntry) {
 
 }
 
-API.prototype.startEntry = function() {
+API.prototype.startEntry = function(timeEntry) {
   let self = this;
   console.log("API - Start Entry");
   return new Promise(function(resolve, reject) {
     let url = ApiUrlV9 + "/time_entries";
     console.log("START ENTRY - 1");
     console.log(JSON.stringify(UserData));
-console.log("START ENTRY - 2");
+    console.log("START ENTRY - 2");
     const start = new Date();
     console.log("START ENTRY - 3");
     console.log("START ENTRY - " + UserData.default_wid);
-    const entry = {
-      start: start.toISOString(),
-      stop: null,
-      duration: -parseInt(start.getTime() / 1000, 10),
-      description: entryDescription,
-      pid: null,
-      tid: null,
-      wid: UserData.default_wid,
-      tags: null,
-      billable: false,
-      created_with: CreatedWith
-    };
+    let entry;
+
+    if (!!timeEntry) {
+      console.log(JSON.stringify(timeEntry));
+      console.log("START ENTRY - 34");
+      entry = {
+        start: start.toISOString(),
+        stop: null,
+        duration: -parseInt(start.getTime() / 1000, 10),
+        description: timeEntry.description,
+        pid: timeEntry.pid,
+        tid: timeEntry.tid || null,
+        wid: timeEntry.wid || UserData.default_wid,
+        tags: timeEntry.tags || null,
+        billable: timeEntry.billable || false,
+        created_with: CreatedWith
+      };
+
+      console.log("START ENTRY - 35");
+    } else {
+      entry = {
+        start: start.toISOString(),
+        stop: null,
+        duration: -parseInt(start.getTime() / 1000, 10),
+        description: entryDescription,
+        pid: null,
+        tid: null,
+        wid: UserData.default_wid,
+        tags: null,
+        billable: false,
+        created_with: CreatedWith
+      };
+    }
 
     console.log("START ENTRY - 4");
 

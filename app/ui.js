@@ -7,6 +7,8 @@ var runningEntry = null;
 var durationLabel = null;
 var lastTo = 0;
 
+const ENTRY_COUNT = 5;
+
 const secondsContainer = document.getElementById("arc-seconds");
 const secondsContainerBack = document.getElementById("arc-seconds-back");
 const secondsAnim = secondsContainer.getElementById("anim");
@@ -21,8 +23,15 @@ export function UI() {
   this.rect = document.getElementById("play-rect");
   this.entryLabel = document.getElementById("entry");
   durationLabel = document.getElementById("duration");
+  this.entriesList = document.getElementById("entriesList");
   this.timer = null;
   this.entry = null;
+  this.recentEntries = [];
+
+  this.tiles = [];
+
+  let list = document.getElementById("entries-list");
+  this.tiles = list.getElementsByClassName("item");
 }
 
 UI.prototype.updateUI = function(data) {
@@ -31,6 +40,12 @@ UI.prototype.updateUI = function(data) {
     this.updateTimer(data.data);
   } else if (data.type === "entry-stop") {
     this.updateTimer(null);
+  } else if (data.type === "unique") {
+    console.log("--------- UI UNIQUE -----------");
+    console.log(JSON.stringify(data));
+    console.log("-------------------");
+
+    this.updateRecentList(data.data);
   }
 }
 
@@ -57,6 +72,29 @@ UI.prototype.updateTimer = function(data) {
     this.entryLabel.text = "";
     this.circle.style.fill = "#228B22";
     toggleRunning(false);
+  }
+}
+
+UI.prototype.updateRecentList = function(data) {
+  this.recentEntries = data;
+  for (let i = 0; i < ENTRY_COUNT; i++) {
+    let tile = this.tiles[i];
+    if (!tile) {
+      continue;
+    }
+
+    const entry = data[i];
+    if (!entry) {
+      tile.style.display = "none";
+      continue;
+    }
+
+    tile.style.display = "inline";
+    tile.getElementById("desc").text = entry.d;
+    if (!!entry.p) {
+      tile.getElementById("proj").text = "• " +entry.p;
+      tile.getElementById("proj").style.fill = entry.c;
+    }
   }
 }
 
@@ -104,7 +142,7 @@ var updateDuration = function() {
 
 function calcArc(current, steps) {
   let angle = (360 / steps) * current;
-  console.log ("Angle: " + angle);
+  //console.log ("Angle: " + angle);
   return angle > 360 ? 360 : angle;
 }
 

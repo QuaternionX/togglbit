@@ -19,10 +19,10 @@ messaging.peerSocket.onmessage = function(evt) {
   // Output the message to the console
   console.log("COMPANION MESSAGE");
   console.log(JSON.stringify(evt.data));
-  if (!!evt.data) {
-    stopEntry(evt.data)
+  if (evt.data.type === "stop") {
+    stopEntry(evt.data.data)
   } else {
-    startEntry();
+    startEntry(evt.data);
   }
 }
 
@@ -32,8 +32,12 @@ messaging.peerSocket.onerror = function(err) {
   console.log("Connection error: " + err.code + " - " + err.message);
 }
 
-function startEntry() {
-  Api.startEntry().then(function(data) {
+function startEntry(entry) {
+  let te, p, c;
+  if (!!entry) {
+    te = findById(entry.id, userData.data.time_entries);
+  }
+  Api.startEntry(te).then(function(data) {
     if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
       console.log("Send new entry to UI");
       var entry = JSON.parse(data);
@@ -45,6 +49,20 @@ function startEntry() {
           "duration": entry.duration,
           "start": entry.start
         }
+      }
+      if (!!entry) {
+        p = findById(entry.pid, userData.data.projects);
+        if (!!p) {
+          c = p.hex_color;
+          p = p.name;
+        } else {
+          p = "";
+        }
+        obj.data.project = p;
+      }
+
+      if (!!c) {
+        obj.data.c = c;
       }
       messaging.peerSocket.send(JSON.stringify(obj));
     }
@@ -93,7 +111,7 @@ function getUserData() {
       };
 
       if (!!entry) {
-        p = findProjectByPid(entry.pid);
+        p = findById(entry.pid, userData.data.projects);
         if (!!p) {
           c = p.hex_color;
           p = p.name;
@@ -115,6 +133,13 @@ function getUserData() {
         }
       }
       messaging.peerSocket.send(JSON.stringify(obj));
+      console.log("93 - " + p);
+      var d = JSON.parse(data).data;
+      setTimeout(function(){
+        generateRecentEntries(d);
+      }, 100);
+      
+      console.log("94");
     }
   }).catch(function (e) {
     console.log("error");
@@ -149,13 +174,119 @@ function restoreSettings() {
   }
 }
 
-function findProjectByPid(pid) {
+function findById(id, array) {
   let key;
-  for (key in userData.data.projects) {
-    if (userData.data.projects.hasOwnProperty(key) && userData.data.projects[key].id === pid) {
-      return userData.data.projects[key];
+  for (key in array) {
+    if (array.hasOwnProperty(key) && array[key].id === id) {
+      return array[key];
     }
   }
 
   return undefined;
- }
+}
+
+
+function generateRecentEntries(data) {
+  var entries = data.time_entries,
+    listEntries = [],
+    i,
+    obj,
+    te;
+    console.log("XXXX -- generateRecentEntries");
+
+  var checkUnique = function (te, listEntries) {
+    var j, obj, p;
+    if (listEntries.length > 0) {
+      for (j = 0; j < listEntries.length; j++) {
+        
+        if (!!te.description && listEntries[j].d === te.description
+            && listEntries[j].p === te.pid ) {
+          console.log ("// ************************* //");
+        console.log (JSON.stringify(listEntries[j]))
+        console.log (JSON.stringify(te))
+        console.log (listEntries[j].d +" === " + te.description +
+            " && " + listEntries[j].p + " === " +te.pid);
+        console.log(!!te.description && listEntries[j].d === te.description
+            && listEntries[j].p === te.pid);
+
+          return false;
+        }
+        if (te.id == listEntries[j].id) {
+          return false;
+        }
+      }
+    }
+    console.log(JSON.stringify(te));
+    obj = {
+      "id": te.id,
+      "d": te.description
+    };
+
+    p = findById(te.pid, userData.data.projects);
+
+    if (!!p) {
+      console.log("// project //");
+      console.log(JSON.stringify(p));
+      obj.p = p.name;
+      obj.c = p.hex_color;
+    }
+
+    listEntries.push(obj);
+    return te;
+  };
+
+  for (i = entries.length - 1; i >= 0; i--) {
+    te = checkUnique(entries[i], listEntries);
+  }
+
+  obj = {
+    "type": "unique",
+    "data": listEntries
+  };
+
+  sendRecentEntries(JSON.stringify(obj));
+}
+
+function sendRecentEntries(data) {
+  console.log("!! sendRecentEntries: ");
+  if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
+    console.log("XXX - SEND unique - Len: " + data.length);
+    console.log("Max message size=" + messaging.peerSocket.MAX_MESSAGE_SIZE);
+
+    console.log(data);
+    messaging.peerSocket.send(data);
+  } else {
+    setTimeout(function(){
+      sendRecentEntries(data);      
+    }, 100);
+  }
+}
+
+
+
+/*
+
+calc daily total and weekly total
+ timeEntries.forEach(function (entry) {
+      // Calc today total
+      if (new Date(entry.start).getTime() > today.getTime()) {
+        if (entry.duration < 0) {
+          todaySum += ((new Date() - new Date(entry.start)) / 1000);
+        } else {
+          todaySum += entry.duration;
+        }
+      }
+
+      // Calc week total
+      if (new Date(entry.start).getTime() > weekStart.getTime()) {
+        if (entry.duration < 0) {
+          weekSum += ((new Date() - new Date(entry.start)) / 1000);
+        } else {
+          weekSum += entry.duration;
+        }
+      }
+
+    });
+    return {today: secToHHMM(todaySum), week: secToHHMM(weekSum)};
+
+    */
