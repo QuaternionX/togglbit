@@ -196,19 +196,15 @@ function generateRecentEntries(data) {
 
   var checkUnique = function (te, listEntries) {
     var j, obj, p;
+
+    if (!te.description && !te.pid) {
+      return false;
+    }
+
     if (listEntries.length > 0) {
       for (j = 0; j < listEntries.length; j++) {
-        
         if (!!te.description && listEntries[j].d === te.description
-            && listEntries[j].p === te.pid ) {
-          console.log ("// ************************* //");
-        console.log (JSON.stringify(listEntries[j]))
-        console.log (JSON.stringify(te))
-        console.log (listEntries[j].d +" === " + te.description +
-            " && " + listEntries[j].p + " === " +te.pid);
-        console.log(!!te.description && listEntries[j].d === te.description
-            && listEntries[j].p === te.pid);
-
+            && listEntries[j].pid === te.pid ) {
           return false;
         }
         if (te.id == listEntries[j].id) {
@@ -216,7 +212,7 @@ function generateRecentEntries(data) {
         }
       }
     }
-    console.log(JSON.stringify(te));
+
     obj = {
       "id": te.id,
       "d": te.description
@@ -225,12 +221,10 @@ function generateRecentEntries(data) {
     p = findById(te.pid, userData.data.projects);
 
     if (!!p) {
-      console.log("// project //");
-      console.log(JSON.stringify(p));
       obj.p = p.name;
+      obj.pid = te.pid;
       obj.c = p.hex_color;
     }
-
     listEntries.push(obj);
     return te;
   };
