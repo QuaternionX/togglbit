@@ -48,11 +48,19 @@ text {
   text-length: 32;
 }
 
-.item-header     { x: 0; y: 0; width: 100%; height: 25%; }
+.item-header     { x: 10; y: 0; width: 100%; height: 33%;}
 .item            { x: 0; y: 0; width: 100%; height: 33%;}
 
-/*
-#entry-background {
-  viewport-fill: blue;
+.recent-header {
+  fill :#ffffff;
+  font-size: 20;
+  height: 100%;
+  width: 100%;
 }
+
+/*
+#today-total-label {text-anchor: middle;}
+#today-total {text-anchor: middle;}
+#week-total-label {text-anchor: middle;}
+#week-total {text-anchor: middle;}
 */

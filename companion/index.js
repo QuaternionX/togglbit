@@ -237,6 +237,9 @@ function generateRecentEntries(data) {
 
   for (i = entries.length - 1; i >= 0; i--) {
     te = checkUnique(entries[i], listEntries);
+    if (listEntries.length >= 5) {
+      break;
+    }
   }
 
   obj = {
