@@ -24,6 +24,9 @@ export function UI() {
   this.entryLabel = document.getElementById("entry");
   durationLabel = document.getElementById("duration");
   this.entriesList = document.getElementById("entriesList");
+  this.views = document.getElementById("views");
+  
+
   this.timer = null;
   this.entry = null;
   this.recentEntries = [];
@@ -47,6 +50,10 @@ UI.prototype.updateUI = function(data) {
 
     this.updateRecentList(data.data);
   }
+}
+
+UI.prototype.switchTo = function(index) {
+  this.views.value = index;
 }
 
 UI.prototype.updateTimer = function(data) {

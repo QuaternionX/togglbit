@@ -35,7 +35,7 @@
   </symbol>
 
 
-  <use href="#panoramaview">
+  <use id="views" href="#panoramaview">
 
   	<!-- MAIN VIEW -->
     <use id="item1" href="#panoramaview-item">

@@ -35,6 +35,7 @@ items.forEach((element, index) => {
       console.log("--------------------------------------");
       console.log(JSON.stringify((ui.recentEntries[index])))
       messaging.peerSocket.send(ui.recentEntries[index]);
+      ui.switchTo(0);
     }
   }
 });
