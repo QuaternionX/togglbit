@@ -25,16 +25,28 @@ export function UI() {
   durationLabel = document.getElementById("duration");
   this.entriesList = document.getElementById("entriesList");
   this.views = document.getElementById("views");
-  
+  this.todayLabel = document.getElementById("today-total");
+  this.weekLabel = document.getElementById("week-total");
 
   this.timer = null;
   this.entry = null;
   this.recentEntries = [];
 
+  // Recent entries
   this.tiles = [];
 
   let list = document.getElementById("entries-list");
   this.tiles = list.getElementsByClassName("item");
+
+  // Summary Day Pies
+  this.dayPies = [];
+  this.dayPies = document.getElementsByClassName("total-pie-day");
+
+/*
+  // Summary Week Pies
+  this.weekPies = [];
+  this.weekPies = document.getElementsByClassName("total-pie-week");
+  */
 }
 
 UI.prototype.updateUI = function(data) {
@@ -49,6 +61,8 @@ UI.prototype.updateUI = function(data) {
     console.log("-------------------");
 
     this.updateRecentList(data.data);
+  } else if (data.type === "summary") {
+    this.updateSummary(data.data);
   }
 }
 
@@ -103,6 +117,39 @@ UI.prototype.updateRecentList = function(data) {
       tile.getElementById("proj").style.fill = entry.c;
     }
   }
+}
+
+UI.prototype.updateSummary = function(data) {
+  this.todayLabel.text = data.today;
+  this.weekLabel.text = data.week;
+
+
+  // Setup Pie chart
+  /*
+  let c = 1;
+  let key;
+  let array = data.todayPie;
+  let arc;
+  let anim;
+
+  for (key in array) {
+    if (array.hasOwnProperty(key)) {
+      arc = this.dayPies[c].getElementById("total-arc");
+      console.log(c + ".) " + key + " | " + arc.style.fill);
+      arc.style.fill = array[key].c;
+      console.log(c + ".) " + key + " | " + arc.style.fill);
+
+      
+      anim = this.dayPies[c].getElementById("anim");
+      anim.from = parseInt(array[key].f);
+      anim.to = parseInt(array[key].t);
+      
+      this.dayPies[c].animate("enable");
+      console.log(array[key].c + " -> (" + anim.from +" - " + anim.to +")");
+      c++;
+    }
+  }
+*/
 }
 
 var toggleRunning = function(running) {

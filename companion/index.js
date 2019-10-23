@@ -9,7 +9,6 @@ let userData;
 // Listen for the onopen event
 messaging.peerSocket.onopen = function() {
   // Ready to send or receive messages
-  console.log("  getUserData();");
   restoreSettings();
   getUserData();
 }
@@ -135,8 +134,13 @@ function getUserData() {
       messaging.peerSocket.send(JSON.stringify(obj));
       console.log("93 - " + p);
       var d = JSON.parse(data).data;
+
       setTimeout(function(){
         generateRecentEntries(d);
+      }, 100);
+
+      setTimeout(function(){
+        calculateSummary();
       }, 100);
       
       console.log("94");
@@ -245,12 +249,7 @@ function generateRecentEntries(data) {
 }
 
 function sendRecentEntries(data) {
-  console.log("!! sendRecentEntries: ");
   if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
-    console.log("XXX - SEND unique - Len: " + data.length);
-    console.log("Max message size=" + messaging.peerSocket.MAX_MESSAGE_SIZE);
-
-    console.log(data);
     messaging.peerSocket.send(data);
   } else {
     setTimeout(function(){
@@ -259,31 +258,129 @@ function sendRecentEntries(data) {
   }
 }
 
+function calculateSummary() {
+  let todaySum = 0;
+  let weekSum = 0;
+  let todayItems = 0;
+  let weekItems = 0;
+  let dur;
+  let p;
+  let pname;
+  const timeEntries = userData.data.time_entries || [];
 
+  const now = new Date();
+  now.setHours(0, 0, 0, 0); // Get today's date at midnight for the local timezone
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Get today's date at midnight for the local timezone
 
-/*
+  const getWeekStart = function (d) {
+    const startDay = userData.data.beginning_of_week;
+    const day = d.getDay();
+    const diff = d.getDate() - day + (startDay > day ? startDay - 7 : startDay);
+    return new Date(d.setDate(diff));
+  };
 
-calc daily total and weekly total
- timeEntries.forEach(function (entry) {
-      // Calc today total
-      if (new Date(entry.start).getTime() > today.getTime()) {
-        if (entry.duration < 0) {
-          todaySum += ((new Date() - new Date(entry.start)) / 1000);
-        } else {
-          todaySum += entry.duration;
-        }
+  const weekStart = getWeekStart(now);
+  let todayPie = {};
+  let weekPie = {};
+
+  timeEntries.forEach(function (entry) {
+    // Calc today total
+    if (new Date(entry.start).getTime() > today.getTime()) {
+      if (entry.duration < 0) {
+        dur = ((new Date() - new Date(entry.start)) / 1000);
+      } else {
+        dur = entry.duration;
+      }
+      todaySum += dur;
+
+      // Today Pie - project name, color, total duration
+      p = findById(entry.pid, userData.data.projects);
+      pname = "No project";
+      if (!!p) {
+        pname = p.name;
       }
 
-      // Calc week total
-      if (new Date(entry.start).getTime() > weekStart.getTime()) {
-        if (entry.duration < 0) {
-          weekSum += ((new Date() - new Date(entry.start)) / 1000);
-        } else {
-          weekSum += entry.duration;
-        }
+      if (!todayPie[pname]) {
+        todayItems++;
+        todayPie[pname] = { 
+          d: 0,
+          c: p.hex_color
+        };
+      }
+      todayPie[pname].d += dur;
+    }
+
+    // Calc week total
+    if (new Date(entry.start).getTime() > weekStart.getTime()) {
+      console.log("WEEK TOTAL");
+      if (entry.duration < 0) {
+        dur = ((new Date() - new Date(entry.start)) / 1000);
+      } else {
+        dur = entry.duration;
+      }
+      weekSum += dur;
+
+      // Week Pie - project name, color, total duration
+      p = findById(entry.pid, userData.data.projects);
+      pname = "No project";
+      if (!!p) {
+        pname = p.name;
       }
 
-    });
-    return {today: secToHHMM(todaySum), week: secToHHMM(weekSum)};
+      if (!weekPie[pname]) {
+        weekItems++;
+        weekPie[pname] = { 
+          d: 0,
+          c: p.hex_color
+        };
+      }
+      weekPie[pname].d += dur;
+    }
+  });
 
-    */
+  let from = 0;
+  let c = 1;
+
+  // Today pie
+  for (const index in todayPie) {
+    if (todayPie.hasOwnProperty(index)) {
+      todayPie[index]["f"] = from;
+      
+      if (todayItems == c) {
+        todayPie[index]["t"] = 359;
+      } else {
+        todayPie[index]["t"] = from + parseInt(todayPie[index].d / todaySum * 360, 10);
+      }
+      from = todayPie[index]["t"];
+      c++;
+    }
+  }
+
+  // Week pie
+  /*
+  weekPie.forEach((element, index) => {
+
+  })
+*/
+  if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
+    var obj = {
+      "type": "summary",
+      "data": {
+        today: secToHHMM(todaySum),
+        week: secToHHMM(weekSum),
+        todayPie: todayPie,
+        weekPie: weekPie
+      }
+    };
+    
+    messaging.peerSocket.send(JSON.stringify(obj));
+  }
+     
+}
+
+function secToHHMM(sum) {
+  const hours = Math.floor(sum / 3600);
+  const minutes = Math.floor((sum % 3600) / 60);
+  return hours + 'h ' + minutes + 'm';
+}

@@ -1,33 +1,41 @@
 <svg>
-	<!-- Define circular progress meter with animation -->
-	<symbol id="progress">
-	  <arc id="seconds-arc" x="50%-50" y="50%-70" width="100" height="100" fill="#CE2324"
-			arc-width="3" start-angle="0" sweep-angle="360" arc-width="2">
-		<animate id="anim" attributeName="sweep-angle" begin="enable" from="0" to="360" dur="1" final="keep" easing="ease-in-out" />
-		</arc>
-	</symbol>
+  <!-- Define circular progress meter with animation -->
+  <symbol id="progress">
+    <arc id="seconds-arc" x="50%-50" y="50%-70" width="100" height="100" fill="#CE2324"
+      arc-width="3" start-angle="0" sweep-angle="360" arc-width="2">
+    <animate id="anim" attributeName="sweep-angle" begin="enable" from="0" to="360" dur="1" final="keep" easing="ease-in-out" />
+    </arc>
+  </symbol>
 
-	<!-- Define rounded corners for entry items -->
-	<symbol id="rounded-corners">
-		<rect x="1" y="-30" height="100%-2" width="100%-2" fill="#ffffff" opacity="0.15"/>
-	</symbol>
+  <!-- Define circular pie chart part -->
+  <symbol id="pie">
+    <arc id="total-arc" x="20%" y="50%-40" width="100" height="100" fill="white"
+      arc-width="3" start-angle="0" sweep-angle="360" arc-width="2">
+      <animate id="anim" attributeName="sweep-angle" begin="enable" from="0" to="360" dur="1" final="keep" easing="ease-in-out" />
+    </arc>
+  </symbol>
 
-	<!-- Define a reusable tile to display recent time entries -->
+  <!-- Define rounded corners for entry items -->
+  <symbol id="rounded-corners">
+    <rect x="1" y="-30" height="100%-2" width="100%-2" fill="#ffffff" opacity="0.15"/>
+  </symbol>
+
+  <!-- Define a reusable tile to display recent time entries -->
   <symbol id="tile-entry" focusable="false" pointer-events="visible" system-events="all">
-  	<section x="10" y="5" width="100%-20" height="100%-10">
+    <section x="10" y="5" width="100%-20" height="100%-10">
 
-	    <use href="#rounded-corners" />
+      <use href="#rounded-corners" />
 
-	    <!-- line1: description -->
-	    <text id="desc" font-size="24" x="15" y="0" fill="white"></text>
+      <!-- line1: description -->
+      <text id="desc" font-size="24" x="15" y="0" fill="white"></text>
 
-	    <!-- line 2: project name -->
-	    <text id="proj" x="15" y="30" font-size="18" fill="white"></text>
+      <!-- line 2: project name -->
+      <text id="proj" x="15" y="30" font-size="18" fill="white"></text>
 
-	    <use id="continue" href="#static-image" x="100%-30" y="-7" height="20"
-	    width="16">
-	      <set href="image" attributeName="href" to="images/play_button.png"/>
-	    </use>
+      <use id="continue" href="#static-image" x="100%-30" y="-7" height="20"
+      width="16">
+        <set href="image" attributeName="href" to="images/play_button.png"/>
+      </use>
     </section>
 
     <rect id="touch-me" pointer-events="all" x="0" y="0" width="100%" height="100%" opacity="0"/>
@@ -37,73 +45,83 @@
 
   <use id="views" href="#panoramaview">
 
-  	<!-- MAIN VIEW -->
+    <!-- MAIN VIEW -->
     <use id="item1" href="#panoramaview-item">
       <svg class="screen">
 
-				<!-- Main View - Header -->
-				<section x="0" y="0" width="100%" height="15%" id="top-section">
+        <!-- Main View - Header -->
+        <section x="0" y="0" width="100%" height="15%" id="top-section">
 
-				</section>
+        </section>
 
-				<!-- Main View - Content -->
-				<section x="0" y="0" width="100%" height="100%" id="middle-section">
-					<arc id="arc-seconds-back" x="50%-50" y="50%-70" width="100" height="100" fill="#6d2122"
-				    arc-width="3" start-angle="0" sweep-angle="360" arc-width="2"/>
-					<use id="arc-seconds" href="#progress"/>
-					<text id="duration" x="50%" y="50%"></text>
-					<text id="entry"></text>
-				</section>
+        <!-- Main View - Content -->
+        <section x="0" y="0" width="100%" height="100%" id="middle-section">
+          <arc id="arc-seconds-back" x="50%-50" y="50%-70" width="100" height="100" fill="#6d2122"
+            arc-width="3" start-angle="0" sweep-angle="360" arc-width="2"/>
+          <use id="arc-seconds" href="#progress"/>
+          <text id="duration" x="50%" y="50%"></text>
+          <text id="entry"></text>
+        </section>
 
-			<!-- Main View - Footer -->
-				<section x="0" y="70%" width="100%" height="15%" id="bottom-section">
-					<circle cx="50%" cy="100%-5" r="30" id="circle"/>
-				  <svg class="container" id="container">
-				    <text id="status" pointer-events="visible"></text>
-						<rect id="stop-icon" width="20" height="20" x="50%-10" y="10" fill="white" />
-						<image id="play-icon" width="16" height="20" x="50%-7" y="50%-1" href="images/play_button.png" class="play" />
-				  </svg>
-				  <rect id="play-rect" width="80" height="80" x="50%-40" y="50%-20" fill="yellow" pointer-events="visible"/>
-				</section>
-			</svg>
+      <!-- Main View - Footer -->
+        <section x="0" y="70%" width="100%" height="15%" id="bottom-section">
+          <circle cx="50%" cy="100%-5" r="30" id="circle"/>
+          <svg class="container" id="container">
+            <text id="status" pointer-events="visible"></text>
+            <rect id="stop-icon" width="20" height="20" x="50%-10" y="10" fill="white" />
+            <image id="play-icon" width="16" height="20" x="50%-7" y="50%-1" href="images/play_button.png" class="play" />
+          </svg>
+          <rect id="play-rect" width="80" height="80" x="50%-40" y="50%-20" fill="yellow" pointer-events="visible"/>
+        </section>
+      </svg>
     </use>
 
     <!-- RECENT ENTRIES VIEW -->
     <use id="item2" href="#panoramaview-item">
 
       <use id="entries-list" href="#tile-list" height="100%" width="100%" y="0">
-				<use href="#tile-list-header" class="item-header">
-					<rect x="0" y="0" height="100%" width="100%" />
-      		<text class="recent-header">Recent Time Entries</text>
-    		</use>
-      	<use id="entry-0" href="#tile-list-item" class="item">
-				  <use href="#tile-entry" />
-				</use>
-				<use id="entry-1" href="#tile-list-item" class="item">
-				  <use href="#tile-entry" />
-				</use>
-				<use id="entry-2" href="#tile-list-item" class="item">
-				  <use href="#tile-entry" />
-				</use>
-				<use id="entry-3" href="#tile-list-item" class="item">
-				  <use href="#tile-entry" />
-				</use>
-				<use id="entry-4" href="#tile-list-item" class="item">
-				  <use href="#tile-entry" />
-				</use>
-    	</use>
+        <use href="#tile-list-header" class="item-header">
+          <rect x="0" y="0" height="100%" width="100%" />
+          <text class="recent-header">Recent Time Entries</text>
+        </use>
+        <use id="entry-0" href="#tile-list-item" class="item">
+          <use href="#tile-entry" />
+        </use>
+        <use id="entry-1" href="#tile-list-item" class="item">
+          <use href="#tile-entry" />
+        </use>
+        <use id="entry-2" href="#tile-list-item" class="item">
+          <use href="#tile-entry" />
+        </use>
+        <use id="entry-3" href="#tile-list-item" class="item">
+          <use href="#tile-entry" />
+        </use>
+        <use id="entry-4" href="#tile-list-item" class="item">
+          <use href="#tile-entry" />
+        </use>
+      </use>
 
     </use>
 
-    <!-- SUMMATY VIEW -->
+    <!-- SUMMARY VIEW -->
     <use id="item3" href="#panoramaview-item">
-      <svg>
-    		<text id="today-total-label" font-size="24" x="10" y="50%-15" fill="white" width="50%">Today</text>	        
-      	<text id="today-total" font-size="24" x="10" y="50%+15" fill="white" width="100%"></text>
+      <section x="0" y="0" height="100%" width="50%">
+        <text id="today-total-label" class="total-text">Today</text>
+        <text id="today-total" class="total-time" />
+        <use href="#pie" class="total-pie-day"/>
+        <use href="#pie" class="total-pie-day"/>
+        <use href="#pie" class="total-pie-day"/>
+        <use href="#pie" class="total-pie-day"/>
+      </section>
 
-	      <text id="week-total-label" font-size="24" x="50%+10" y="50%-15" fill="white" width="50%">This week</text>
-	      <text id="week-total" font-size="24" x="50%+10" y="50%+15" fill="white" width="50%"></text>
-	    </svg>
+      <section x="50%" y="0" height="100%" width="50%">
+        <text id="week-total-label" class="total-text">This week</text>
+        <text id="week-total" class="total-time" />
+        <use href="#pie" class="total-pie-week"/>
+        <use href="#pie" class="total-pie-week"/>
+        <use href="#pie" class="total-pie-week"/>
+        <use href="#pie" class="total-pie-week"/>
+      </section>
     </use>
 
     <!-- Have enough pagination dots for your slides (extras are hidden) -->

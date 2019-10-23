@@ -58,9 +58,18 @@ text {
   width: 100%;
 }
 
-/*
-#today-total-label {text-anchor: middle;}
-#today-total {text-anchor: middle;}
-#week-total-label {text-anchor: middle;}
-#week-total {text-anchor: middle;}
-*/
+.total-text {
+  y: 20%;
+  x: 42;
+  fill: #ffffff;
+  width: 100%;
+  font-size: 24;
+}
+
+.total-time {
+  font-size: 24;
+  x: 42;
+  y: 50%+15;
+  fill: "white";
+  width: 100%;
+}
