@@ -16,10 +16,12 @@ messaging.peerSocket.onopen = function() {
 // Listen for the onmessage event
 messaging.peerSocket.onmessage = function(evt) {
   // Output the message to the console
-  console.log("COMPANION MESSAGE");
-  console.log(JSON.stringify(evt.data));
+  //console.log("COMPANION MESSAGE");
+  //console.log(JSON.stringify(evt.data));
   if (evt.data.type === "stop") {
     stopEntry(evt.data.data)
+  } else if (evt.data.type === "sync") {
+    getUserData();
   } else {
     startEntry(evt.data);
   }

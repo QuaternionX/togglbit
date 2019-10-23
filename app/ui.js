@@ -27,6 +27,8 @@ export function UI() {
   this.views = document.getElementById("views");
   this.todayLabel = document.getElementById("today-total");
   this.weekLabel = document.getElementById("week-total");
+  this.syncButton = document.getElementById("sync-button");
+  this.syncArc = document.getElementById("sync-arc");
 
   this.timer = null;
   this.entry = null;
@@ -64,6 +66,11 @@ UI.prototype.updateUI = function(data) {
   } else if (data.type === "summary") {
     this.updateSummary(data.data);
   }
+}
+
+UI.prototype.syncSpinner = function(index) {
+  console.log("sync");
+  this.syncArc.animate("enable");
 }
 
 UI.prototype.switchTo = function(index) {

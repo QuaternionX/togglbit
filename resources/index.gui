@@ -72,6 +72,12 @@
             <image id="play-icon" width="16" height="20" x="50%-7" y="50%-1" href="images/play_button.png" class="play" />
           </svg>
           <rect id="play-rect" width="80" height="80" x="50%-40" y="50%-20" fill="yellow" pointer-events="visible"/>
+
+          <arc id="sync-arc" x="10" y="100%-20" width="40" height="40" fill="white"
+            arc-width="3" start-angle="0" sweep-angle="280">
+            <animate id="anim" attributeName="sweep-angle" begin="enable" from="0" to="360" dur="1" final="restore" easing="ease-in-out" />
+          </arc>
+          <rect id="sync-button" pointer-events="visible" width="50" height="50" height="80" x="0" y="100%-30" opacity="0"/>
         </section>
       </svg>
     </use>

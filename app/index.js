@@ -22,6 +22,15 @@ ui.rect.onclick = function(e) {
   }
 }
 
+ui.syncButton.onclick = function(e) {
+  ui.syncSpinner();
+  var obj = {
+    "type": "sync"
+  };
+
+  messaging.peerSocket.send(obj);
+}
+
 let list = document.getElementById("entries-list");
 let items = list.getElementsByClassName("item");
 
