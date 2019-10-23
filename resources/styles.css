@@ -73,3 +73,19 @@ text {
   fill: "white";
   width: 100%;
 }
+
+#play-icon {
+  display: inline;
+}
+
+#stop-icon {
+  display: none;
+}
+
+#arc-seconds {
+  display: none;
+}
+
+#arc-seconds-back {
+  display: none;
+}

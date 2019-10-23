@@ -59,7 +59,7 @@
           <arc id="arc-seconds-back" x="50%-50" y="50%-70" width="100" height="100" fill="#6d2122"
             arc-width="3" start-angle="0" sweep-angle="360" arc-width="2"/>
           <use id="arc-seconds" href="#progress"/>
-          <text id="duration" x="50%" y="50%"></text>
+          <text id="duration" x="50%" y="50%-13"></text>
           <text id="entry"></text>
         </section>
 
