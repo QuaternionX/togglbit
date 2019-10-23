@@ -29,6 +29,7 @@ export function UI() {
   this.weekLabel = document.getElementById("week-total");
   this.syncButton = document.getElementById("sync-button");
   this.syncArc = document.getElementById("sync-arc");
+  this.notification = document.getElementById("notification");
 
   this.timer = null;
   this.entry = null;
@@ -54,6 +55,7 @@ export function UI() {
 UI.prototype.updateUI = function(data) {
   //console.log("updateUI");
   if (data.type === "current-entry") {
+    this.updateNotification(null);
     this.updateTimer(data.data);
   } else if (data.type === "entry-stop") {
     this.updateTimer(null);
@@ -61,7 +63,15 @@ UI.prototype.updateUI = function(data) {
     this.updateRecentList(data.data);
   } else if (data.type === "summary") {
     this.updateSummary(data.data);
+  } else if (data.type === "error") {
+    this.updateNotification(data.data.message);
   }
+}
+
+UI.prototype.updateNotification = function(message) {
+  console.log("Update notification: " + message);
+  this.notification.text = message;
+  this.notification.style.display = !!message ? "inline": "none";
 }
 
 UI.prototype.syncSpinner = function(index) {
@@ -94,6 +104,7 @@ UI.prototype.updateTimer = function(data) {
     this.entryLabel.text = "";
     this.circle.style.fill = "#228B22";
     toggleRunning(false);
+    this.updateNotification("No Running Time entry.\nTap on play button to start");
   }
 }
 

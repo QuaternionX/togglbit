@@ -89,3 +89,11 @@ text {
 #arc-seconds-back {
   display: none;
 }
+
+#notification {
+  font-size: 18;
+  text-anchor: middle;
+  x: 0;
+  y: 30%;
+  fill: "white";
+}

@@ -5,6 +5,7 @@ import { settingsStorage } from "settings";
 
 let Api = new API();
 let userData;
+const apiError = "Sync error - please make sure you have set up Toggl API token in Fitbit mobile app";
 
 // Listen for the onopen event
 messaging.peerSocket.onopen = function() {
@@ -148,12 +149,17 @@ function getUserData() {
       setTimeout(function(){
         calculateSummary();
       }, 100);
-      
-      console.log("94");
     }
   }).catch(function (e) {
     console.log("error");
     console.log(e)
+    var obj = {
+      "type": "error",
+      "data": {
+        "message": apiError
+      }
+    };
+    messaging.peerSocket.send(JSON.stringify(obj));
   });
 }
 
