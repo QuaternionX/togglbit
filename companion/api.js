@@ -20,7 +20,7 @@ API.prototype.setToken = function(token) {
 
 API.prototype.fetchUser = function() {
   let self = this;
-  console.log("API - Fetch User Data");
+  //console.log("API - Fetch User Data");
   return new Promise(function(resolve, reject) {
     let url = ApiUrl + "/me?with_related_data=true";    
 
@@ -37,8 +37,6 @@ API.prototype.fetchUser = function() {
     .then(data => {
       UserData = data.data;
       //console.log("Got JSON response from server:" + JSON.stringify(data));
-      console.log(".............................");
-      //console.log("22Got JSON response from server:" + JSON.parse(JSON.stringify(data)).data.time_entries[0].id);
       resolve(JSON.stringify(data));
     }).catch(function (error) {
       reject(error);
@@ -48,7 +46,7 @@ API.prototype.fetchUser = function() {
 
 API.prototype.stopEntry = function(timeEntry) {
   let self = this;
-  console.log("API - Stop Entry");
+  //console.log("API - Stop Entry");
   return new Promise(function(resolve, reject) {
     let url = ApiUrlV9 + "/time_entries/" + timeEntry.id;
     const stopTime = new Date();
@@ -67,15 +65,11 @@ API.prototype.stopEntry = function(timeEntry) {
       },
       body: JSON.stringify(entry)
     }
-    console.log(JSON.stringify(obj));
 
-    console.log("StopENTRY - 7");
     fetch(url, obj)
     .then(response => response.json())
     .then(data => {
-      console.log("STOPP Got JSON response from server:" + JSON.stringify(data));
-      console.log(".............................");
-      //console.log("22Got JSON response from server:" + JSON.parse(JSON.stringify(data)).data.time_entries[0].id);
+//      console.log("STOPP Got JSON response from server:" + JSON.stringify(data));
       resolve(JSON.stringify(data));
     }).catch(function (error) {
       reject(error);
@@ -89,17 +83,10 @@ API.prototype.startEntry = function(timeEntry) {
   console.log("API - Start Entry");
   return new Promise(function(resolve, reject) {
     let url = ApiUrlV9 + "/time_entries";
-    console.log("START ENTRY - 1");
-    console.log(JSON.stringify(UserData));
-    console.log("START ENTRY - 2");
     const start = new Date();
-    console.log("START ENTRY - 3");
-    console.log("START ENTRY - " + UserData.default_wid);
     let entry;
 
     if (!!timeEntry) {
-      console.log(JSON.stringify(timeEntry));
-      console.log("START ENTRY - 34");
       entry = {
         start: start.toISOString(),
         stop: null,
@@ -112,8 +99,6 @@ API.prototype.startEntry = function(timeEntry) {
         billable: timeEntry.billable || false,
         created_with: CreatedWith
       };
-
-      console.log("START ENTRY - 35");
     } else {
       entry = {
         start: start.toISOString(),
@@ -129,8 +114,6 @@ API.prototype.startEntry = function(timeEntry) {
       };
     }
 
-    console.log("START ENTRY - 4");
-
     var obj = {  
       method: 'POST',
       headers: {
@@ -140,15 +123,10 @@ API.prototype.startEntry = function(timeEntry) {
       },
       body: JSON.stringify(entry)
     };
-    console.log("START ENTRY - 5");
-    console.log(JSON.stringify(obj));
     
     fetch(url, obj)
     .then(response => response.json())
     .then(data => {
-      console.log("Got JSON response from server:" + JSON.stringify(data));
-      console.log(".............................");
-      //console.log("22Got JSON response from server:" + JSON.parse(JSON.stringify(data)).data.time_entries[0].id);
       resolve(JSON.stringify(data));
     }).catch(function (error) {
       console.log(JSON.stringify(error))

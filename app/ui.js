@@ -52,16 +52,12 @@ export function UI() {
 }
 
 UI.prototype.updateUI = function(data) {
-  console.log("updateUI");
+  //console.log("updateUI");
   if (data.type === "current-entry") {
     this.updateTimer(data.data);
   } else if (data.type === "entry-stop") {
     this.updateTimer(null);
   } else if (data.type === "unique") {
-    console.log("--------- UI UNIQUE -----------");
-    console.log(JSON.stringify(data));
-    console.log("-------------------");
-
     this.updateRecentList(data.data);
   } else if (data.type === "summary") {
     this.updateSummary(data.data);
@@ -69,7 +65,7 @@ UI.prototype.updateUI = function(data) {
 }
 
 UI.prototype.syncSpinner = function(index) {
-  console.log("sync");
+  //console.log("sync");
   this.syncArc.animate("enable");
 }
 
@@ -78,8 +74,6 @@ UI.prototype.switchTo = function(index) {
 }
 
 UI.prototype.updateTimer = function(data) {
-  console.log("Update timer");
-  console.log(JSON.stringify(data));
   var label;
 
   runningEntry = data;

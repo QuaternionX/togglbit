@@ -40,7 +40,6 @@ function startEntry(entry) {
   }
   Api.startEntry(te).then(function(data) {
     if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
-      console.log("Send new entry to UI");
       var entry = JSON.parse(data);
       var obj = {
         "type": "current-entry",
@@ -70,14 +69,20 @@ function startEntry(entry) {
   }).catch(function (e) {
     console.log("error");
     console.log(e)
+
+    var obj = {
+      "type": "error",
+      "data": {
+        "message": apiError
+      }
+    };
+    messaging.peerSocket.send(JSON.stringify(obj));
   });
 }
 
 function stopEntry(entry) {
-  console.log ("index STOP data");
+
   Api.stopEntry(entry).then(function(data) {
-    console.log ("STOP data -> length: " + data.length);
-    console.log (JSON.parse(data));
     var obj = {
       "type": "entry-stop"
     };
@@ -134,7 +139,6 @@ function getUserData() {
         }
       }
       messaging.peerSocket.send(JSON.stringify(obj));
-      console.log("93 - " + p);
       var d = JSON.parse(data).data;
 
       setTimeout(function(){
@@ -198,7 +202,6 @@ function generateRecentEntries(data) {
     i,
     obj,
     te;
-    console.log("XXXX -- generateRecentEntries");
 
   var checkUnique = function (te, listEntries) {
     var j, obj, p;
@@ -315,7 +318,6 @@ function calculateSummary() {
 
     // Calc week total
     if (new Date(entry.start).getTime() > weekStart.getTime()) {
-      console.log("WEEK TOTAL");
       if (entry.duration < 0) {
         dur = ((new Date() - new Date(entry.start)) / 1000);
       } else {
