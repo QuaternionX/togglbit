@@ -15,6 +15,9 @@
 
   **TogglBit** is a Toggl time tracking client for the smartwatch Fitbit. It holds only the most simple functionality and let's the user start and stop time entries fast from their wrist.
 
+
+<img src="fitbit_screens_880.png" alt="TogglBit">
+
 # Download
 
 TogglBit is currently in Alpha state and is not officially maintained by Toggl. It is available in the Fitbit Gallery. Get it <a href="https://gallery.fitbit.com/details/70dfd461-bbb7-42a6-968f-1a5a72076eb8">here</a>.
