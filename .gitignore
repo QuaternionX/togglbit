@@ -1,4 +1,4 @@
 node_modules
 companion/config.js
-package-lock.js
+package-lock.json
 build
