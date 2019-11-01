@@ -379,8 +379,8 @@ function calculateSummary() {
       "data": {
         today: secToHHMM(todaySum),
         week: secToHHMM(weekSum),
-        todayPie: todayPie,
-        weekPie: weekPie
+        todayPie: {}, //todayPie,
+        weekPie: {} //weekPie
       }
     };
     
