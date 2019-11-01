@@ -4,7 +4,7 @@ export function API(apiKey) {
 let ApiUrl = "https://toggl.com/api/v8";
 let ApiUrlV9 = "https://toggl.com/api/v9";
 let UserData;
-let CreatedWith = "TogglBit-1.0";
+let CreatedWith = "TogglBit-1.0.1";
 let credentials;
 let entryDescription = "";
 
