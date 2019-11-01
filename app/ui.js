@@ -84,7 +84,8 @@ UI.prototype.switchTo = function(index) {
 }
 
 UI.prototype.updateTimer = function(data) {
-  var label;
+  var label,
+    color = "#ffffff";
 
   runningEntry = data;
   this.entry = data;
@@ -93,8 +94,9 @@ UI.prototype.updateTimer = function(data) {
     label = data.description;
     if (!!data.project) {
       label += " • " + data.project;
-      this.entryLabel.style.fill = data.c;
+      color = data.c;
     }
+    this.entryLabel.style.fill = color;
     console.log("Description - " + label);
     this.entryLabel.text = label;
     this.circle.style.fill = "#db1e1e";
