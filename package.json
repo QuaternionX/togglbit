@@ -29,5 +29,10 @@
   },
   "scripts": {
     "build": "fitbit-build"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/toggl/togglbit.git"
+  },
+  "license": "BSD-3-Clause"
 }
