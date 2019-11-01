@@ -11,7 +11,7 @@ function mySettings(props) {
         />
       </Section>
       <Section
-        description={<Text>Setup the default description that is used when you star timer from TogglBit</Text>}
+        description={<Text>Setup the default description that is used when you start timer from TogglBit</Text>}
         title={<Text bold align="center">Preferences</Text>}>
         <TextInput
           label="Default Time entry description"
