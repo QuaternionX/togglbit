@@ -316,7 +316,7 @@ function calculateSummary() {
         todayItems++;
         todayPie[pname] = { 
           d: 0,
-          c: p.hex_color
+          c: (!!p) ? p.hex_color: "#ffffff"
         };
       }
       todayPie[pname].d += dur;
@@ -342,7 +342,7 @@ function calculateSummary() {
         weekItems++;
         weekPie[pname] = { 
           d: 0,
-          c: p.hex_color
+          c: (!!p) ? p.hex_color : "#ffffff"
         };
       }
       weekPie[pname].d += dur;
