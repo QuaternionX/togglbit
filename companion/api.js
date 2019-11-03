@@ -1,3 +1,5 @@
+import { Base64 } from "./base64.js"
+
 export function API(apiKey) {
 };
 
@@ -7,6 +9,7 @@ let UserData;
 let CreatedWith = "TogglBit-1.0.1";
 let credentials;
 let entryDescription = "";
+let base64 = new Base64();
 
 API.prototype.setDescription = function(description) {
   console.log("API: set entry description - " + description);
@@ -15,7 +18,7 @@ API.prototype.setDescription = function(description) {
 
 API.prototype.setToken = function(token) {
   console.log("API: set token - " + token);
-  credentials = 'Basic ' + btoa(token + ':api_token');
+  credentials = 'Basic ' + base64.encode(token + ':api_token');
 }
 
 API.prototype.fetchUser = function() {
