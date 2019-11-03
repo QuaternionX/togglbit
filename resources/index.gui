@@ -81,9 +81,9 @@
         </section>
 
         <!-- Main View - Notification area -->
-        <section x="0" y="0" width="100%" height="100%">
+        <section x="20" y="0" width="100%-40" height="100%">
           <!-- rect id="notification-back" width="80%" height="100" height="80" x="10%" y="50%-50" fill="white" opacity="0.75"/-->
-          <textarea id="notification" text-length="80"/>
+          <textarea id="notification" text-length="300"/>
         </section>
       </svg>
     </use>
