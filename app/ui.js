@@ -7,7 +7,7 @@ var runningEntry = null;
 var durationLabel = null;
 var lastTo = 0;
 
-const ENTRY_COUNT = 5;
+const ENTRY_COUNT = 10;
 
 const secondsContainer = document.getElementById("arc-seconds");
 const secondsContainerBack = document.getElementById("arc-seconds-back");

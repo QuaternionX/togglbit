@@ -205,6 +205,7 @@ function findById(id, array) {
 function generateRecentEntries(data) {
   var entries = data.time_entries,
     listEntries = [],
+    numOfEntries = 10,
     i,
     obj,
     te;
