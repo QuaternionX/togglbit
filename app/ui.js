@@ -127,7 +127,7 @@ UI.prototype.updateRecentList = function(data) {
     tile.style.display = "inline";
     tile.getElementById("desc").text = entry.d;
     if (!!entry.p) {
-      tile.getElementById("proj").text = "• " +entry.p;
+      tile.getElementById("proj").text = "• " + entry.p;
       tile.getElementById("proj").style.fill = entry.c;
     }
   }
