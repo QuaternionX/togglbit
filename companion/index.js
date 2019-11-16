@@ -230,7 +230,7 @@ function generateRecentEntries(data) {
 
     obj = {
       "id": te.id,
-      "d": te.description
+      "d": te.description || "(no description)"
     };
 
     p = findById(te.pid, userData.data.projects);
