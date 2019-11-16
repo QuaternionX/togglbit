@@ -245,10 +245,12 @@ function generateRecentEntries(data) {
     return te;
   };
 
-  for (i = entries.length - 1; i >= 0; i--) {
-    te = checkUnique(entries[i], listEntries);
-    if (listEntries.length >= 5) {
-      break;
+  if (!!entries) {
+    for (i = entries.length - 1; i >= 0; i--) {
+      te = checkUnique(entries[i], listEntries);
+      if (listEntries.length >= numOfEntries) {
+        break;
+      }
     }
   }
 
