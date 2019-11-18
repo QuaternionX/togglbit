@@ -210,17 +210,22 @@ function generateRecentEntries(data) {
     obj,
     te;
 
-  var checkUnique = function (te, listEntries) {
+  var checkUnique = function (te) {
     var j, obj, p;
 
     if (!te.description && !te.pid) {
       return false;
     }
 
+    if (!te.description) {
+      te.description = "(no description)";
+    }
+
     if (listEntries.length > 0) {
       for (j = 0; j < listEntries.length; j++) {
-        if (!!te.description && listEntries[j].d === te.description
-            && listEntries[j].pid === te.pid ) {
+        if (!!te.description
+          && listEntries[j].d === te.description
+          && listEntries[j].pid === te.pid ) {
           return false;
         }
         if (te.id == listEntries[j].id) {
@@ -231,7 +236,7 @@ function generateRecentEntries(data) {
 
     obj = {
       "id": te.id,
-      "d": te.description || "(no description)"
+      "d": te.description
     };
 
     p = findById(te.pid, userData.data.projects);
@@ -247,7 +252,7 @@ function generateRecentEntries(data) {
 
   if (!!entries) {
     for (i = entries.length - 1; i >= 0; i--) {
-      te = checkUnique(entries[i], listEntries);
+      checkUnique(entries[i]);
       if (listEntries.length >= numOfEntries) {
         break;
       }
