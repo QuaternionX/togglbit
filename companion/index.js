@@ -46,7 +46,7 @@ function startEntry(entry) {
         "type": "current-entry",
         "data": {
           "id": entry.id,
-          "description": entry.description,
+          "description": entry.description || "",
           "duration": entry.duration,
           "start": entry.start
         }

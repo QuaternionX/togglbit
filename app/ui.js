@@ -91,7 +91,7 @@ UI.prototype.updateTimer = function(data) {
   this.entry = data;
   if (!!data) {
     //Running entry
-    label = data.description;
+    label = data.description || "(no description)";
     if (!!data.project) {
       label += " • " + data.project;
       color = data.c;
